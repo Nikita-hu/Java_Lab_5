@@ -1,63 +1,62 @@
-import java.util.*;
-import java.util.Comparator;
-
 class Applicant {
     private String lastName;
     private String firstName;
-    private int subject1Score;
-    private int subject2Score;
-    
-    // Конструктор
-    public Applicant(String lastName, String firstName, int subject1Score, int subject2Score) {
-        validateInput(lastName, firstName, subject1Score, subject2Score);
-        
+    private int score1;
+    private int score2;
+
+    public Applicant(String lastName, String firstName, int score1, int score2) {
         this.lastName = lastName;
         this.firstName = firstName;
-        this.subject1Score = subject1Score;
-        this.subject2Score = subject2Score;
-    }
-    
-    // Валидация входных данных
-    private void validateInput(String lastName, String firstName, int score1, int score2) {
-        if (lastName == null || lastName.trim().isEmpty() || lastName.length() > 20) {
-            throw new IllegalArgumentException("Фамилия должна быть не пустой и не более 20 символов");
-        }
-        if (firstName == null || firstName.trim().isEmpty() || firstName.length() > 15) {
-            throw new IllegalArgumentException("Имя должно быть не пустым и не более 15 символов");
-        }
+        this.score1 = score1;
+        this.score2 = score2;
+
+        // Проверка валидности баллов
         if (score1 < 0 || score1 > 100 || score2 < 0 || score2 > 100) {
             throw new IllegalArgumentException("Баллы должны быть в диапазоне от 0 до 100");
         }
+        if ((lastName.length() <= 20) && (firstName.length() <= 15)) {
+            throw new IllegalArgumentException(
+                    "Фамилия не должна превышать 20 символов, и имя не должно превышать 15 символов");
+        }
     }
-    
-    // Проверка, прошел ли абитуриент тестирование
-    public boolean isPassed() {
-        return subject1Score >= 30 && subject2Score >= 30;
-    }
-    
-    // Проверка, не прошел ли абитуриент тестирование
+
+    // Проверка, провалил ли абитуриент тестирование
     public boolean isFailed() {
-        return !isPassed();
+        return score1 < 30 || score2 < 30;
     }
-    
-    // Геттеры
-    public String getLastName() { return lastName; }
-    public String getFirstName() { return firstName; }
-    public int getSubject1Score() { return subject1Score; }
-    public int getSubject2Score() { return subject2Score; }
-    
-    // Строковое представление
+
+    // Вычисление среднего балла
+    public double getAverageScore() {
+        return (score1 + score2) / 2.0;
+    }
+
+    // Форматированный вывод
     @Override
     public String toString() {
-        return String.format("%s %s (%d, %d)", lastName, firstName, subject1Score, subject2Score);
+        return String.format("%s %s: баллы %d, %d (средний: %.1f) %s",
+                lastName, firstName, score1, score2,
+                getAverageScore(), isFailed() ? "[НЕ ДОПУЩЕН]" : "[ДОПУЩЕН]");
     }
-    
-    // Краткое представление (только имя и фамилия)
+
+    // Короткая строка для вывода
     public String toShortString() {
-        return lastName + " " + firstName;
+        return lastName + " " + firstName + " (" + score1 + ", " + score2 + ")";
+    }
+
+    // Геттеры
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public int getScore1() {
+        return score1;
+    }
+
+    public int getScore2() {
+        return score2;
     }
 }
-
-
-
-// Дополнительный класс для демонстрации с готовыми данными

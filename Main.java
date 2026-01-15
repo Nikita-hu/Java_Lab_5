@@ -89,6 +89,8 @@ public class Main {
                     }
                 }
 
+                scanner.close();
+
                 break;
 
             case "4.4":
@@ -121,18 +123,18 @@ public class Main {
                 System.out.println("=== ПОИСК ЗВОНКИХ СОГЛАСНЫХ В ТЕКСТЕ ===");
                 System.out.println("Программа находит все звонкие согласные буквы,");
                 System.out.println("которые входят более чем в одно слово, и выводит их в алфавитном порядке.\n");
-                
+
                 boolean running2 = true;
-                
+
                 while (running2) {
                     System.out.println("Выберите источник текста:");
                     System.out.println("1. Загрузить из файла");
                     System.out.println("2. Выход");
                     System.out.print("Ваш выбор: ");
-                    
+
                     try {
                         int choice = Integer.parseInt(scanner.nextLine());
-                        
+
                         switch (choice) {
                             case 1:
                                 processFileInput(scanner);
@@ -150,7 +152,7 @@ public class Main {
                         System.out.println("Произошла ошибка: " + e.getMessage());
                     }
                 }
-                
+
                 break;
 
             case "6.1":
@@ -161,9 +163,9 @@ public class Main {
                 queue.offer(30);
                 queue.offer(40);
                 queue.offer(50);
-                
+
                 System.out.println("Исходная очередь: " + queue);
-                
+
                 // Создаем объект QueueReverser и используем его
                 ReverseQueueArrayStack.QueueReverser reverser = new ReverseQueueArrayStack.QueueReverser(queue);
                 reverser.printInReverse();
@@ -179,8 +181,8 @@ public class Main {
         try {
             System.out.println("\n=== ВВОД ДАННЫХ ===");
 
-            List<Integer> list1 = readList(scanner, "L1");
-            List<Integer> list2 = readList(scanner, "L2");
+            List<Object> list1 = readList(scanner, "L1");
+            List<Object> list2 = readList(scanner, "L2");
 
             SymmetricDifferenceProcessor processor = new SymmetricDifferenceProcessor(list1, list2);
 
@@ -199,38 +201,25 @@ public class Main {
         }
     }
 
-    private static List<Integer> readList(Scanner scanner, String listName) {
-        System.out.println("\nВведите элементы списка " + listName + ":");
-        System.out.println("(числа через пробел, например: 1 2 3 4 5)");
+    private static List<Object> readList(Scanner scanner, String listName) {
+        System.out.println("\nВведите элементы списка " + listName + " через запятую:");
         System.out.print("> ");
-
         String input = scanner.nextLine().trim();
+
         if (input.isEmpty()) {
-            System.out.println("Список " + listName + " будет пустым");
             return new ArrayList<>();
         }
 
-        String[] elements = input.split("\\s+");
-        List<Integer> list = new ArrayList<>();
+        // Просто разбиваем по запятой
+        String[] elements = input.split(",");
+        List<Object> result = new ArrayList<>();
 
         for (String element : elements) {
-            try {
-                list.add(Integer.parseInt(element));
-            } catch (NumberFormatException e) {
-                System.out.println("Предупреждение: '" + element + "' не является целым числом и будет пропущено");
-            }
+            // Убираем пробелы и добавляем как строку
+            result.add(element.trim());
         }
 
-        // Удаляем дубликаты, сохраняя порядок
-        List<Integer> uniqueList = new ArrayList<>();
-        for (Integer num : list) {
-            if (!uniqueList.contains(num)) {
-                uniqueList.add(num);
-            }
-        }
-
-        System.out.println("Список " + listName + " (без дубликатов): " + uniqueList);
-        return uniqueList;
+        return result;
     }
 
     private static void showExamples() {
@@ -238,37 +227,37 @@ public class Main {
 
         // Пример 1
         System.out.println("Пример 1:");
-        List<Integer> l1_1 = Arrays.asList(1, 2, 3, 4, 5);
-        List<Integer> l2_1 = Arrays.asList(4, 5, 6, 7, 8);
+        List<Object> l1_1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Object> l2_1 = Arrays.asList(4, 5, 6, 7, 8);
         SymmetricDifferenceProcessor p1 = new SymmetricDifferenceProcessor(l1_1, l2_1);
         System.out.println(p1);
         p1.printDetailedAnalysis();
 
         // Пример 2
         System.out.println("\nПример 2:");
-        List<Integer> l1_2 = Arrays.asList(10, 20, 30, 40);
-        List<Integer> l2_2 = Arrays.asList(20, 40, 60, 80);
+        List<Object> l1_2 = Arrays.asList("яблоко", "банан", "апельсин", "виноград");
+        List<Object> l2_2 = Arrays.asList("банан", "виноград", "киви", "манго");
         SymmetricDifferenceProcessor p2 = new SymmetricDifferenceProcessor(l1_2, l2_2);
         System.out.println(p2);
 
         // Пример 3 (с повторениями)
         System.out.println("\nПример 3 (с повторяющимися элементами):");
-        List<Integer> l1_3 = Arrays.asList(1, 1, 2, 2, 3, 4, 5);
-        List<Integer> l2_3 = Arrays.asList(2, 3, 3, 5, 6, 7);
+        List<Object> l1_3 = Arrays.asList("яблоко", "яблоко", "банан", "банан", "апельсин");
+        List<Object> l2_3 = Arrays.asList("банан", "апельсин", "апельсин", "киви", "манго");
         SymmetricDifferenceProcessor p3 = new SymmetricDifferenceProcessor(l1_3, l2_3);
         System.out.println(p3);
 
         // Пример 4 (один список пустой)
         System.out.println("\nПример 4 (L2 - пустой список):");
-        List<Integer> l1_4 = Arrays.asList(1, 2, 3);
-        List<Integer> l2_4 = Arrays.asList();
+        List<Object> l1_4 = Arrays.asList(1, 2, 3);
+        List<Object> l2_4 = Arrays.asList();
         SymmetricDifferenceProcessor p4 = new SymmetricDifferenceProcessor(l1_4, l2_4);
         System.out.println(p4);
 
-        // Пример 5 (отрицательные числа)
-        System.out.println("\nПример 5 (с отрицательными числами):");
-        List<Integer> l1_5 = Arrays.asList(-5, -3, 0, 1, 3);
-        List<Integer> l2_5 = Arrays.asList(-3, 0, 2, 4, 6);
+        // Пример 5 (смешанные типы)
+        System.out.println("\nПример 5 (смешанные типы):");
+        List<Object> l1_5 = Arrays.asList("1", "2", "3", "4", "5");
+        List<Object> l2_5 = Arrays.asList(4, 5, 6, 7, 8);
         SymmetricDifferenceProcessor p5 = new SymmetricDifferenceProcessor(l1_5, l2_5);
         System.out.println(p5);
     }
@@ -312,56 +301,30 @@ public class Main {
     }
 
     // ИЗМЕНЕНИЕ: делаем метод public static
-    public static void printResults(TestingResultsProcessor processor) {
-        // Вывод статистики
-        processor.printStatistics();
+    private static void printResults(TestingResultsProcessor processor) {
+        System.out.println("\n=== РЕЗУЛЬТАТЫ ОБРАБОТКИ ===");
 
-        // Вывод списка недопущенных абитуриентов
-        List<Applicant> failedApplicants = processor.getFailedApplicants();
+        // Вывод всех абитуриентов
+        System.out.println("\nВсе абитуриенты:");
+        for (Applicant applicant : processor.getAllApplicants()) {
+            System.out.println("  " + applicant);
+        }
 
-        if (failedApplicants.isEmpty()) {
-            System.out.println("\nВсе абитуриенты допущены к сдаче экзаменов в первом потоке!");
+        // Вывод неудачников
+        System.out.println("\nНе допущены к экзаменам:");
+        List<String> failedNames = processor.getFailedApplicantsNames();
+        if (failedNames.isEmpty()) {
+            System.out.println("  Все абитуриенты допущены!");
         } else {
-            System.out.println("\n=== АБИТУРИЕНТЫ, НЕ ДОПУЩЕННЫЕ К ЭКЗАМЕНАМ В ПЕРВОМ ПОТОКЕ ===");
-
-            // Сортируем по фамилии для удобства чтения
-            failedApplicants.sort(Comparator.comparing(Applicant::getLastName));
-
-            for (int i = 0; i < failedApplicants.size(); i++) {
-                Applicant applicant = failedApplicants.get(i);
-                System.out.println((i + 1) + ". " + applicant.toShortString() +
-                        " (баллы: " + applicant.getSubject1Score() + ", " +
-                        applicant.getSubject2Score() + ")");
-            }
-
-            // Дополнительный анализ причин неудачи
-            analyzeFailureReasons(failedApplicants);
-        }
-    }
-
-    private static void analyzeFailureReasons(List<Applicant> failedApplicants) {
-        int failedSubject1 = 0;
-        int failedSubject2 = 0;
-        int failedBoth = 0;
-
-        for (Applicant applicant : failedApplicants) {
-            boolean failed1 = applicant.getSubject1Score() < 30;
-            boolean failed2 = applicant.getSubject2Score() < 30;
-
-            if (failed1 && failed2) {
-                failedBoth++;
-            } else if (failed1) {
-                failedSubject1++;
-            } else {
-                failedSubject2++;
+            for (String name : failedNames) {
+                System.out.println("  " + name);
             }
         }
 
-        System.out.println("\n=== АНАЛИЗ ПРИЧИН НЕУДАЧИ ===");
-        System.out.println("Не сдали только первый предмет: " + failedSubject1);
-        System.out.println("Не сдали только второй предмет: " + failedSubject2);
-        System.out.println("Не сдали оба предмета: " + failedBoth);
+        // Статистика
+        processor.printStatistics();
     }
+
 
     private static void processFileInput(Scanner scanner) {
         System.out.println("\n=== ЗАГРУЗКА ИЗ ФАЙЛА ===");

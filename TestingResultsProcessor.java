@@ -1,6 +1,5 @@
 import java.util.*;
 import java.util.Comparator;
-// Класс для обработки результатов тестирования
 class TestingResultsProcessor {
     private List<Applicant> applicants;
     private List<Applicant> failedApplicants;
@@ -70,7 +69,6 @@ class TestingResultsProcessor {
         System.out.println("Всего абитуриентов: " + total);
         System.out.println("Допущено к экзаменам: " + passed);
         System.out.println("Не допущено: " + failed);
-        System.out.printf("Процент допущенных: %.1f%%\n", (passed * 100.0 / total));
     }
     
     // Геттеры

@@ -1,4 +1,5 @@
 import java.util.*;
+
 class FractionDemo {
     public static void demo() {
         Scanner scanner = new Scanner(System.in);
@@ -9,7 +10,7 @@ class FractionDemo {
             System.out.println("\nСоздаем дроби:");
             Fraction frac1 = new Fraction(3, 4);
             Fraction frac2 = new Fraction(-2, 5);
-            Fraction frac3 = new Fraction(6, -8); // проверка нормализации знаков
+            Fraction frac3 = new Fraction(6, -8);
             
             System.out.println("Дробь 1: " + frac1);
             System.out.println("Дробь 2: " + frac2);
